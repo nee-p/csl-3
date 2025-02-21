@@ -1,74 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0">
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" names-delimiter=". " name-as-sort-order="all" sort-separator=" " demote-non-dropping-particle="never" initialize-with=" " initialize-with-hyphen="false" page-range-format="expanded" default-locale="en-US">
   <info>
-    <title>HBMU Citation Style</title>
-    <id>http://www.zotero.org/styles/hbmu-custom</id>
-    <link href="http://www.zotero.org/styles/hbmu-custom" rel="self"/>
+    <title>HBMU-2025</title>
+    <id>http://www.zotero.org/styles/hbmu-2025</id>
+    <link href="http://www.zotero.org/styles/hbmu-2025" rel="self"/>
+    <link href="http://std.samr.gov.cn/gb/search/gbDetailed?id=71F772D8055ED3A7E05397BE0A0AB82A" rel="documentation"/>
+    <author>
+      <name>Dr. Neeranzan</name>
+      <email></email>
+    </author>
+    <contributor>
+      <name>Neeranzan</name>
+      <email>drnrnzn@gmail.com</email>
+    </contributor>
     <category citation-format="numeric"/>
-    <category field="medicine"/>
-    <updated>2023-10-15T18:30:00+00:00</updated>
-    <rights license="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</rights>
+    <category field="generic-base"/>
+    <summary>The HBMU-2025 numeric style</summary>
+    <updated>2022-01-20T00:00:00+08:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
-  
-  <macro name="title">
-    <text variable="title"/>
+  <locale xml:lang="en-US">
+    <date form="text">
+      <date-part name="year" suffix="-" range-delimiter="-"/>
+      <date-part name="month" form="numeric" suffix="-" range-delimiter="-"/>
+      <date-part name="day" suffix="" range-delimiter="-"/>
+    </date>
+    <terms>
+      <term name="edition" form="short">ed.</term>
+      <term name="open-quote">“</term>
+      <term name="close-quote">”</term>
+      <term name="open-inner-quote">‘</term>
+      <term name="close-inner-quote">’</term>
+      <term name="et-al">et al.</term>
+    </terms>
+  </locale>
+  <macro name="entry-layout">
+    <group delimiter=". ">
+      <names variable="author"/>
+      <text variable="title"/>
+      <text variable="container-title"/>
+      <date variable="issued" form="text"/>
+      <text variable="volume"/>
+      <text variable="issue" prefix="(" suffix=")"/>
+      <text variable="page" prefix="pp. "/>
+      <text variable="DOI" prefix="DOI: "/>
+      <text variable="URL"/>
+    </group>
   </macro>
-
-  <macro name="author">
-    <names variable="author">
-      <name delimiter=", " initialize-with=". " et-al-min="4" et-al-use-first="3" et-al-use-last="false"/>
-      <label form="long" prefix=" " suffix=""/>
-    </names>
-    <text term="et-al" prefix=", " text-case="lowercase"/>
+  <macro name="type-code">
+    <group delimiter="/">
+      <choose>
+        <if type="article-journal article-magazine periodical" match="any">
+          <text value="J"/>
+        </if>
+        <else-if type="article-newspaper">
+          <text value="N"/>
+        </else-if>
+        <else-if type="book chapter" match="any">
+          <text value="M"/>
+        </else-if>
+        <else-if type="dataset">
+          <text value="DS"/>
+        </else-if>
+        <else-if type="map">
+          <text value="CM"/>
+        </else-if>
+        <else-if type="paper-conference">
+          <text value="C"/>
+        </else-if>
+        <else-if type="patent">
+          <text value="P"/>
+        </else-if>
+        <else-if type="post post-weblog webpage" match="any">
+          <text value="EB"/>
+        </else-if>
+        <else-if type="report">
+          <text value="R"/>
+        </else-if>
+        <else-if type="software">
+          <text value="CP"/>
+        </else-if>
+        <else-if type="standard">
+          <text value="S"/>
+        </else-if>
+        <else-if type="thesis">
+          <text value="D"/>
+        </else-if>
+        <else>
+          <text value="Z"/>
+        </else>
+      </choose>
+      <choose>
+        <if variable="URL DOI" match="any">
+          <text value="OL"/>
+        </if>
+      </choose>
+    </group>
   </macro>
-
-  <!-- In-text citation: superscript with collapsed citation numbers (using default range delimiter) -->
-  <citation collapse="citation-number">
-    <layout prefix="[" suffix="]" delimiter=", " vertical-align="sup">
+  <citation collapse="citation-number" after-collapse-delimiter=",">
+    <layout vertical-align="sup" delimiter="," prefix="[" suffix="]">
       <text variable="citation-number"/>
     </layout>
   </citation>
-
-  <!-- Bibliography: standard display without superscript -->
-  <bibliography>
+  <bibliography entry-spacing="0" et-al-min="4" et-al-use-first="3" second-field-align="flush">
     <layout>
-      <text variable="citation-number" prefix="[" suffix="] "/>
-      <group delimiter=". ">
-        <text macro="author"/>
-        <group delimiter=" ">
-          <text macro="title" suffix=". "/>
-          <choose>
-            <!-- Journal Article [J] -->
-            <if type="article-journal">
-              <text prefix="[" suffix="] " value="J"/>
-              <text variable="container-title" suffix=", "/>
-              <date variable="issued" form="numeric" date-parts="year" suffix=" "/>
-              <group delimiter="">
-                <text variable="volume"/>
-                <text variable="issue" prefix="(" suffix=")"/>
-                <text variable="page" prefix=": "/>
-              </group>
-            </if>
-            <!-- Book [M] -->
-            <else-if type="book">
-              <text value="[M]. "/>
-              <text variable="publisher-place" suffix=": "/>
-              <text variable="publisher" suffix=", "/>
-              <date variable="issued" form="numeric" date-parts="year"/>
-              <text variable="page" prefix=": "/>
-            </else-if>
-            <!-- Conference Paper [A] -->
-            <else-if type="paper-conference">
-              <text value="[A]. In: "/>
-              <text variable="container-title" prefix="[" suffix="C]. "/>
-              <text variable="publisher-place" suffix=": "/>
-              <text variable="publisher" suffix=", "/>
-              <date variable="issued" form="numeric" date-parts="year"/>
-              <text variable="page" prefix=": "/>
-            </else-if>
-          </choose>
-        </group>
-      </group>
+      <text variable="citation-number" prefix="[" suffix="]"/>
+      <text macro="entry-layout"/>
     </layout>
   </bibliography>
 </style>
